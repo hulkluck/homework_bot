@@ -1,11 +1,16 @@
-...
+import os
+import requests
+import telegram
+import dotenv
+import datetime
 
-load_dotenv()
+source
+dotenv.load_dotenv()
 
 
-PRACTICUM_TOKEN = ...
-TELEGRAM_TOKEN = ...
-TELEGRAM_CHAT_ID = ...
+PRACTICUM_TOKEN = os.getenv('PRACTICUM_TOKEN')
+TELEGRAM_TOKEN = os.getenv('TOKEN')
+TELEGRAM_CHAT_ID = os.getenv('CHAT_ID')
 
 RETRY_TIME = 600
 ENDPOINT = 'https://practicum.yandex.ru/api/user_api/homework_statuses/'
@@ -20,14 +25,14 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
-    ...
+    bot.send_message(message)
 
 
 def get_api_answer(current_timestamp):
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
-
-    ...
+    response = requests.get(ENDPOINT, headers=HEADERS, params=params)
+    return response.json()        
 
 
 def check_response(response):
@@ -49,7 +54,12 @@ def parse_status(homework):
 
 
 def check_tokens():
-    ...
+    try:
+        PRACTICUM_TOKEN != None
+        TELEGRAM_TOKEN != None
+        TELEGRAM_CHAT_ID != None
+    except:
+        print('Не все данные на местах =)')
 
 
 def main():
