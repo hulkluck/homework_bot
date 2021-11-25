@@ -26,17 +26,18 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
+    """Отпрака сообщения."""
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
         logging.info(
             f'Сообщение "{message}" для "{TELEGRAM_CHAT_ID}" отправлено')
     except Exception as error:
         logging.error(f'Сообщение "{message}" для'
-                      f'"{TELEGRAM_CHAT_ID}" Сообшение не отправлено. Ошибка: {error}')
+                      f'"{TELEGRAM_CHAT_ID}" Сообшение не отправлено: {error}')
 
 
 def get_api_answer(current_timestamp):
-    """Запрос к API"""
+    """Запрос к API."""
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
     try:
@@ -63,7 +64,7 @@ def check_response(response):
 
 
 def parse_status(homework):
-    """Проверка статуса"""
+    """Проверка статуса."""
     name_homework = homework.get('homework_name')
     status_homework = homework.get('status')
     if status_homework is None:
@@ -77,7 +78,7 @@ def parse_status(homework):
 
 
 def check_tokens():
-    """Проверка наличия токенов"""
+    """Проверка наличия токенов."""
     tokens = True
     if PRACTICUM_TOKEN is None:
         error_text = 'Ошибка, отсутствует PRACTICUM_TOKEN'
