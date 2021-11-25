@@ -26,7 +26,13 @@ HOMEWORK_STATUSES = {
 
 
 def send_message(bot, message):
-    bot.send_message(TELEGRAM_CHAT_ID, message)
+    try:
+        bot.send_message(TELEGRAM_CHAT_ID, message)
+        logging.info(
+            f'Сообщение "{message}" для "{TELEGRAM_CHAT_ID}" отправлено')
+    except Exception as error:
+        logging.error(f'Сообщение "{message}" для'
+                      f'"{TELEGRAM_CHAT_ID}" Сообшение не отправлено. Ошибка: {error}')
 
 
 def get_api_answer(current_timestamp):
