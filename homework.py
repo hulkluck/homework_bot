@@ -42,15 +42,18 @@ def get_api_answer(current_timestamp):
     """Запрос к API."""
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
-    response = requests.get(ENDPOINT, headers=HEADERS, params=params)
+    try:
+        response = requests.get(ENDPOINT, headers=HEADERS, params=params)
+    except requests.RequestException as error:
+        logger.warning(f'проблема с Яндекс API! {error}')
+        raise Exception (f'Ошибка PRACTICUM {error}')
     try:
         if response.status_code != HTTPStatus.OK:
             logger.error(
                 f'practicum.yandex.ru != 200: {response.status_code}')
             raise Exception('practicum.yandex.ru != 200')
         return response.json()
-    except response.RequestException as error:
-        logger.warning(f'проблема с Яндекс API! {error}')
+    except Exception:
         raise response.Exception('PRACTICUM ответ не 200')
 
 
