@@ -1,11 +1,11 @@
 import logging
 import os
 import time
+from http import HTTPStatus
 
 import dotenv
 import requests
 import telegram
-from http import HTTPStatus
 
 logger = logging.getLogger('logger')
 dotenv.load_dotenv()
@@ -46,7 +46,8 @@ def get_api_answer(current_timestamp):
         response = requests.get(ENDPOINT, headers=HEADERS, params=params)
     except requests.RequestException as error:
         logger.warning(f'проблема с Яндекс API! {error}')
-        raise Exception (f'Ошибка PRACTICUM {error}')
+        raise Exception(f'Ошибка PRACTICUM {error}')
+
     try:
         if response.status_code != HTTPStatus.OK:
             logger.error(
